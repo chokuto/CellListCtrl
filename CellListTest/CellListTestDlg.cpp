@@ -14,9 +14,6 @@
 
 // CCellListTestDlg ダイアログ
 
-
-
-
 CCellListTestDlg::CCellListTestDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CCellListTestDlg::IDD, pParent)
 {
@@ -47,6 +44,7 @@ BOOL CCellListTestDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 小さいアイコンの設定
 
 	// TODO: 初期化をここに追加します。
+	BasicTest();
 
 	return TRUE;  // フォーカスをコントロールに設定した場合を除き、TRUE を返します。
 }
@@ -87,3 +85,27 @@ HCURSOR CCellListTestDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+void CCellListTestDlg::BasicTest()
+{
+	ASSERT(0 == m_List.GetColumnCount());
+	ASSERT(0 == m_List.GetItemCount());
+
+	ASSERT(false == m_List.InsertColumn(-1, _T("Column 1"), 60));
+	ASSERT(false == m_List.InsertColumn(1, _T("Column 1"), 60));
+
+	ASSERT(true == m_List.InsertColumn(0, _T("Column 1"), 60));
+	ASSERT(1 == m_List.GetColumnCount());
+	ASSERT(_T("Column 1") == m_List.GetColumnHeadingText(0));
+	ASSERT(60 == m_List.GetColumnWidth(0));
+
+	ASSERT(true == m_List.InsertColumn(1, _T("Column 2"), 80));
+	ASSERT(true == m_List.InsertColumn(2, _T("Column 3"), 100));
+	ASSERT(3 == m_List.GetColumnCount());
+
+	ASSERT(false == m_List.InsertItem(-1, _T("Item 1")));
+	ASSERT(false == m_List.InsertItem(1, _T("Item 1")));
+	ASSERT(true == m_List.InsertItem(0, _T("Item 1")));
+	ASSERT(_T("Item 1") == m_List.GetItemText(0));
+	ASSERT(true == m_List.SetItemText(0, 0, _T("Item 1-1")));
+	ASSERT(_T("Item 1-1") == m_List.GetItemText(0));
+}

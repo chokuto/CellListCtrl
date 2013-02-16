@@ -30,5 +30,7 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 private:
+
+	void BasicTest();
 	CCellListCtrl m_List;
 };
