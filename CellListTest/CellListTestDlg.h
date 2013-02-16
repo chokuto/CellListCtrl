@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "CellListCtrl.h"
 
 
 // CCellListTestDlg ダイアログ
@@ -28,4 +29,6 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+private:
+	CCellListCtrl m_List;
 };

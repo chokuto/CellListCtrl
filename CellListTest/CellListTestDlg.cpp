@@ -26,6 +26,7 @@ CCellListTestDlg::CCellListTestDlg(CWnd* pParent /*=NULL*/)
 void CCellListTestDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_CELL_LIST, m_List);
 }
 
 BEGIN_MESSAGE_MAP(CCellListTestDlg, CDialogEx)
