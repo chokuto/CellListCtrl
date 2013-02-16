@@ -1,0 +1,4 @@
+*.sln      diff text eol=crlf
+*.vcproj   diff text eol=crlf
+*.vcxproj* diff text eol=crlf
+*.rc       diff text eol=crlf
