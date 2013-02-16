@@ -123,9 +123,37 @@ bool CCellListCtrl::SetItemText(int iItem, int iColumn, LPCTSTR text)
 
 
 BEGIN_MESSAGE_MAP(CCellListCtrl, CWnd)
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 // CCellListCtrl メッセージ ハンドラー
+void CCellListCtrl::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+
+	CRect rcClient(0,0,0,0);
+	GetClientRect(&rcClient);
+
+	int eachHeight = GetItemHeightInPixel(&dc);
+
+	dc.SetTextColor(::GetSysColor(COLOR_WINDOWTEXT));
+	dc.SetBkColor(::GetSysColor(COLOR_WINDOW));
+
+	int itemCount = GetItemCount();
+	int columnCount = GetColumnCount();
+
+	for (int iItem = 0; iItem < itemCount; ++iItem) {
+		int currentCellLeft = 0;
+		CRect rcLine(0, iItem * eachHeight, rcClient.right, (iItem + 1) * eachHeight);
+		dc.FillSolidRect(&rcLine, dc.GetBkColor());
+		for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
+			int eachWidth = GetColumnWidth(iColumn);
+			CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
+			dc.DrawText(GetItemText(iItem, iColumn), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
+			currentCellLeft += eachWidth;
+		}
+	}
+}
 
 int CCellListCtrl::GetItemHeightInPixel(CDC* pDC) const
 {

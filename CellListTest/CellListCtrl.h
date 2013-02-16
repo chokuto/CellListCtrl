@@ -29,6 +29,7 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP()
+	afx_msg void OnPaint();
 
 private:
 	int GetItemHeightInPixel(CDC* pDC) const;

@@ -108,4 +108,12 @@ void CCellListTestDlg::BasicTest()
 	ASSERT(_T("Item 1") == m_List.GetItemText(0));
 	ASSERT(true == m_List.SetItemText(0, 0, _T("Item 1-1")));
 	ASSERT(_T("Item 1-1") == m_List.GetItemText(0));
+	ASSERT(true == m_List.SetItemText(0, 1, _T("Item 1-2")));
+	ASSERT(true == m_List.SetItemText(0, 2, _T("Item 1-3")));
+
+	m_List.InsertItem(1, _T("Item 2-1"));
+	m_List.SetItemText(1, 1, _T("Item 2-2"));
+
+	m_List.InsertItem(2, _T("Item 3-1"));
+	m_List.SetItemText(2, 1, _T("Item 3-2"));
 }
