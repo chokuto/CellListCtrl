@@ -20,11 +20,14 @@ public:
 	CString GetColumnHeadingText(int index) const;
 	bool InsertColumn(int index, LPCTSTR headingText, int width);
 	bool DeleteColumn(int index);
+	void DeleteAllColumns();
+	bool SetColumnHeadingText(int index, LPCTSTR headingText);
 
 	int GetItemCount() const;
 	CString GetItemText(int iItem, int iColumn = 0) const;
 	bool InsertItem(int index, LPCTSTR text);
 	bool DeleteItem(int index);
+	void DeleteAllItems();
 	bool SetItemText(int iItem, int iColumn, LPCTSTR text);
 
 protected:

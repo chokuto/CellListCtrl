@@ -35,11 +35,17 @@ int CCellListCtrl::GetColumnCount() const
 
 int CCellListCtrl::GetColumnWidth(int index) const
 {
+	if (!IsValidColumn(index)) {
+		AfxThrowInvalidArgException();
+	}
 	return m_columns[index].Width;
 }
 
 CString CCellListCtrl::GetColumnHeadingText(int index) const
 {
+	if (!IsValidColumn(index)) {
+		AfxThrowInvalidArgException();
+	}
 	return m_columns[index].HeadingText;
 }
 
@@ -70,6 +76,21 @@ bool CCellListCtrl::DeleteColumn(int index)
 
 	m_columns.erase(m_columns.begin() + index);
 
+	return true;
+}
+
+void CCellListCtrl::DeleteAllColumns()
+{
+	m_columns.clear();
+}
+
+bool CCellListCtrl::SetColumnHeadingText(int index, LPCTSTR headingText)
+{
+	if (!IsValidColumn(index)) {
+		return false;
+	}
+
+	m_columns[index].HeadingText = headingText;
 	return true;
 }
 
@@ -109,6 +130,11 @@ bool CCellListCtrl::DeleteItem(int index)
 
 	m_items.erase(m_items.begin() + index);
 	return true;
+}
+
+void CCellListCtrl::DeleteAllItems()
+{
+	m_items.clear();
 }
 
 bool CCellListCtrl::SetItemText(int iItem, int iColumn, LPCTSTR text)
