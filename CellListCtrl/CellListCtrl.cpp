@@ -16,7 +16,10 @@ namespace {
 
 IMPLEMENT_DYNAMIC(CCellListCtrl, CWnd)
 
-CCellListCtrl::CCellListCtrl() : m_hFont(NULL)
+CCellListCtrl::CCellListCtrl()
+	: m_hFont(NULL)
+	, m_textColor(::GetSysColor(COLOR_WINDOWTEXT))
+	, m_backColor(::GetSysColor(COLOR_WINDOW))
 {
 	if (!RegisterWindowClass()) {
 		AfxThrowResourceException();
@@ -147,6 +150,25 @@ bool CCellListCtrl::SetItemText(int iItem, int iColumn, LPCTSTR text)
 	return true;
 }
 
+void CCellListCtrl::SetTextColor(COLORREF textColor)
+{
+	m_textColor = textColor;
+}
+
+COLORREF CCellListCtrl::GetTextColor() const
+{
+	return m_textColor;
+}
+
+void CCellListCtrl::SetBackColor(COLORREF backColor)
+{
+	m_backColor = backColor;
+}
+
+COLORREF CCellListCtrl::GetBackColor() const
+{
+	return m_backColor;
+}
 
 BEGIN_MESSAGE_MAP(CCellListCtrl, CWnd)
 	ON_MESSAGE(WM_GETFONT, &CCellListCtrl::OnGetFont)
@@ -181,8 +203,8 @@ void CCellListCtrl::OnPaint()
 
 	int eachHeight = GetItemHeightInPixel(&dc);
 
-	dc.SetTextColor(::GetSysColor(COLOR_WINDOWTEXT));
-	dc.SetBkColor(::GetSysColor(COLOR_WINDOW));
+	dc.SetTextColor(m_textColor);
+	dc.SetBkColor(m_backColor);
 
 	int itemCount = GetItemCount();
 	int columnCount = GetColumnCount();

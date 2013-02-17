@@ -30,6 +30,12 @@ public:
 	void DeleteAllItems();
 	bool SetItemText(int iItem, int iColumn, LPCTSTR text);
 
+	void SetTextColor(COLORREF textColor);
+	COLORREF GetTextColor() const;
+
+	void SetBackColor(COLORREF backColor);
+	COLORREF GetBackColor() const;
+
 protected:
 	DECLARE_MESSAGE_MAP()
 	afx_msg LRESULT OnGetFont(WPARAM wParam, LPARAM lParam);
@@ -54,6 +60,8 @@ private:
 	std::vector<Item> m_items;
 
 	HFONT m_hFont;
+	COLORREF m_textColor;
+	COLORREF m_backColor;
 };
 
 

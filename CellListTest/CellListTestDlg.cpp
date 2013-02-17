@@ -96,6 +96,11 @@ void CCellListTestDlg::InitializeListCtrl()
 	m_List.SetFont(&m_Font);
 	ASSERT(m_List.GetFont() == &m_Font);
 
+	m_List.SetTextColor(RGB(255,0,0));
+	ASSERT(m_List.GetTextColor() == RGB(255,0,0));
+	m_List.SetBackColor(RGB(0,255,255));
+	ASSERT(m_List.GetBackColor() == RGB(0,255,255));
+
 	m_List.InsertColumn(0, _T("Column 1"), 60);
 	m_List.InsertColumn(1, _T("Column 2"), 60);
 	m_List.InsertColumn(2, _T("Column 3"), 60);
