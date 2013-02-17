@@ -16,7 +16,7 @@ namespace {
 
 IMPLEMENT_DYNAMIC(CCellListCtrl, CWnd)
 
-CCellListCtrl::CCellListCtrl()
+CCellListCtrl::CCellListCtrl() : m_hFont(NULL)
 {
 	if (!RegisterWindowClass()) {
 		AfxThrowResourceException();
@@ -149,13 +149,32 @@ bool CCellListCtrl::SetItemText(int iItem, int iColumn, LPCTSTR text)
 
 
 BEGIN_MESSAGE_MAP(CCellListCtrl, CWnd)
+	ON_MESSAGE(WM_GETFONT, &CCellListCtrl::OnGetFont)
+	ON_MESSAGE(WM_SETFONT, &CCellListCtrl::OnSetFont)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 // CCellListCtrl メッセージ ハンドラー
+LRESULT CCellListCtrl::OnGetFont(WPARAM wParam, LPARAM /*lParam*/)
+{
+	return reinterpret_cast<LRESULT>(m_hFont);
+}
+
+LRESULT CCellListCtrl::OnSetFont(WPARAM wParam, LPARAM /*lParam*/)
+{
+	m_hFont = reinterpret_cast<HFONT>(wParam);
+	return 0;
+}
+
 void CCellListCtrl::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
+
+	int dcStateID = dc.SaveDC();
+
+	if (m_hFont != NULL) {
+		dc.SelectObject(CFont::FromHandle(m_hFont));
+	}
 
 	CRect rcClient(0,0,0,0);
 	GetClientRect(&rcClient);
@@ -179,6 +198,8 @@ void CCellListCtrl::OnPaint()
 			currentCellLeft += eachWidth;
 		}
 	}
+
+	dc.RestoreDC(dcStateID);
 }
 
 int CCellListCtrl::GetItemHeightInPixel(CDC* pDC) const

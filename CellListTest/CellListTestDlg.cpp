@@ -44,6 +44,7 @@ BOOL CCellListTestDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 小さいアイコンの設定
 
 	// TODO: 初期化をここに追加します。
+	InitializeListCtrl();
 
 	return TRUE;  // フォーカスをコントロールに設定した場合を除き、TRUE を返します。
 }
@@ -82,4 +83,23 @@ void CCellListTestDlg::OnPaint()
 HCURSOR CCellListTestDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
+}
+
+void CCellListTestDlg::InitializeListCtrl()
+{
+	{
+		LOGFONT lf = {};
+		lf.lfHeight = 21;
+		_tcscpy_s(lf.lfFaceName, _T("Arial"));
+		ENSURE(m_Font.CreateFontIndirect(&lf));
+	}
+	m_List.SetFont(&m_Font);
+	ASSERT(m_List.GetFont() == &m_Font);
+
+	m_List.InsertColumn(0, _T("Column 1"), 60);
+	m_List.InsertColumn(1, _T("Column 2"), 60);
+	m_List.InsertColumn(2, _T("Column 3"), 60);
+
+	m_List.InsertItem(0, _T("Item 1-1"));
+	m_List.SetItemText(0, 1, _T("Item 1-2"));
 }

@@ -32,6 +32,8 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP()
+	afx_msg LRESULT OnGetFont(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnSetFont(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnPaint();
 
 private:
@@ -50,6 +52,8 @@ private:
 		std::vector<CString> Text;
 	};
 	std::vector<Item> m_items;
+
+	HFONT m_hFont;
 };
 
 
