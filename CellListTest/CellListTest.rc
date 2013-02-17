@@ -21,6 +21,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -83,7 +84,7 @@ FONT 9, "MS UI Gothic", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,209,179,50,14
     PUSHBUTTON      "キャンセル",IDCANCEL,263,179,50,14
-    CONTROL         "カスタム1",IDC_CELL_LIST,"CellListCtrl",WS_TABSTOP,17,7,148,168
+    CONTROL         "",IDC_CELL_LIST,"CellListCtrl",WS_BORDER | WS_TABSTOP,17,7,148,168
 END
 
 
