@@ -44,7 +44,6 @@ BOOL CCellListTestDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 小さいアイコンの設定
 
 	// TODO: 初期化をここに追加します。
-	BasicTest();
 
 	return TRUE;  // フォーカスをコントロールに設定した場合を除き、TRUE を返します。
 }
@@ -83,37 +82,4 @@ void CCellListTestDlg::OnPaint()
 HCURSOR CCellListTestDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
-}
-
-void CCellListTestDlg::BasicTest()
-{
-	ASSERT(0 == m_List.GetColumnCount());
-	ASSERT(0 == m_List.GetItemCount());
-
-	ASSERT(false == m_List.InsertColumn(-1, _T("Column 1"), 60));
-	ASSERT(false == m_List.InsertColumn(1, _T("Column 1"), 60));
-
-	ASSERT(true == m_List.InsertColumn(0, _T("Column 1"), 60));
-	ASSERT(1 == m_List.GetColumnCount());
-	ASSERT(_T("Column 1") == m_List.GetColumnHeadingText(0));
-	ASSERT(60 == m_List.GetColumnWidth(0));
-
-	ASSERT(true == m_List.InsertColumn(1, _T("Column 2"), 80));
-	ASSERT(true == m_List.InsertColumn(2, _T("Column 3"), 100));
-	ASSERT(3 == m_List.GetColumnCount());
-
-	ASSERT(false == m_List.InsertItem(-1, _T("Item 1")));
-	ASSERT(false == m_List.InsertItem(1, _T("Item 1")));
-	ASSERT(true == m_List.InsertItem(0, _T("Item 1")));
-	ASSERT(_T("Item 1") == m_List.GetItemText(0));
-	ASSERT(true == m_List.SetItemText(0, 0, _T("Item 1-1")));
-	ASSERT(_T("Item 1-1") == m_List.GetItemText(0));
-	ASSERT(true == m_List.SetItemText(0, 1, _T("Item 1-2")));
-	ASSERT(true == m_List.SetItemText(0, 2, _T("Item 1-3")));
-
-	m_List.InsertItem(1, _T("Item 2-1"));
-	m_List.SetItemText(1, 1, _T("Item 2-2"));
-
-	m_List.InsertItem(2, _T("Item 3-1"));
-	m_List.SetItemText(2, 1, _T("Item 3-2"));
 }
