@@ -15,14 +15,21 @@ public:
 	CCellListCtrl();
 	virtual ~CCellListCtrl();
 
+	class CColumn {
+	public:
+		virtual CString HeadingText() const = 0;
+		virtual int Width() const = 0;
+	};
+	const CColumn& Columns(int index) const;
+
 	int GetColumnCount() const;
-	int GetColumnWidth(int index) const;
-	CString GetColumnHeadingText(int index) const;
 	bool InsertColumn(int index, LPCTSTR headingText, int width);
 	bool DeleteColumn(int index);
 	void DeleteAllColumns();
 	bool SetColumnHeadingText(int index, LPCTSTR headingText);
 
+	class CItem {
+	};
 	int GetItemCount() const;
 	CString GetItemText(int iItem, int iColumn = 0) const;
 	bool InsertItem(int index, LPCTSTR text);
@@ -48,11 +55,18 @@ private:
 	bool IsValidColumn(int index) const;
 	bool IsValidItem(int index) const;
 
-	struct Column {
-		CString HeadingText;
-		int Width;
+	class CColumnImpl : public CColumn {
+	public:
+		CColumnImpl(const CString& text, int width);
+		virtual CString HeadingText() const;
+		void SetHeadingText(const CString& text);
+		virtual int Width() const;
+		void SetWidth(int width);
+	private:
+		CString m_headingText;
+		int m_width;
 	};
-	std::vector<Column> m_columns;
+	std::vector<CColumnImpl> m_columns;
 
 	struct Item {
 		std::vector<CString> Text;

@@ -36,20 +36,12 @@ int CCellListCtrl::GetColumnCount() const
 	return static_cast<int>(m_columns.size());
 }
 
-int CCellListCtrl::GetColumnWidth(int index) const
+const CCellListCtrl::CColumn& CCellListCtrl::Columns(int index) const
 {
 	if (!IsValidColumn(index)) {
 		AfxThrowInvalidArgException();
 	}
-	return m_columns[index].Width;
-}
-
-CString CCellListCtrl::GetColumnHeadingText(int index) const
-{
-	if (!IsValidColumn(index)) {
-		AfxThrowInvalidArgException();
-	}
-	return m_columns[index].HeadingText;
+	return m_columns[index];
 }
 
 bool CCellListCtrl::InsertColumn(int index, LPCTSTR headingText, int width)
@@ -58,10 +50,7 @@ bool CCellListCtrl::InsertColumn(int index, LPCTSTR headingText, int width)
 		return false;
 	}
 
-	Column column = {};
-	column.HeadingText = headingText;
-	column.Width = width;
-	m_columns.insert(m_columns.begin() + index, column);
+	m_columns.insert(m_columns.begin() + index, CColumnImpl(headingText, width));
 
 	int itemCount = GetItemCount();
 	for (int iItem = 0; iItem < itemCount; ++iItem) {
@@ -93,7 +82,7 @@ bool CCellListCtrl::SetColumnHeadingText(int index, LPCTSTR headingText)
 		return false;
 	}
 
-	m_columns[index].HeadingText = headingText;
+	m_columns[index].SetHeadingText(headingText);
 	return true;
 }
 
@@ -214,7 +203,7 @@ void CCellListCtrl::OnPaint()
 		CRect rcLine(0, iItem * eachHeight, rcClient.right, (iItem + 1) * eachHeight);
 		dc.FillSolidRect(&rcLine, dc.GetBkColor());
 		for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
-			int eachWidth = GetColumnWidth(iColumn);
+			int eachWidth = Columns(iColumn).Width();
 			CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
 			dc.DrawText(GetItemText(iItem, iColumn), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
 			currentCellLeft += eachWidth;
@@ -267,4 +256,29 @@ bool CCellListCtrl::IsValidColumn(int index) const
 bool CCellListCtrl::IsValidItem(int index) const
 {
 	return (0 <= index && index < GetItemCount());
+}
+
+
+CCellListCtrl::CColumnImpl::CColumnImpl(const CString& text, int width) : m_headingText(text), m_width(width)
+{
+}
+
+CString CCellListCtrl::CColumnImpl::HeadingText() const
+{
+	return m_headingText;
+}
+
+void CCellListCtrl::CColumnImpl::SetHeadingText(const CString& text)
+{
+	m_headingText = text;
+}
+
+int CCellListCtrl::CColumnImpl::Width() const
+{
+	return m_width;
+}
+
+void CCellListCtrl::CColumnImpl::SetWidth(int width)
+{
+	m_width = width;
 }
