@@ -52,11 +52,6 @@ bool CCellListCtrl::InsertColumn(int index, LPCTSTR headingText, int width)
 
 	m_columns.insert(m_columns.begin() + index, CColumnImpl(headingText, width));
 
-	int itemCount = GetItemCount();
-	for (int iItem = 0; iItem < itemCount; ++iItem) {
-		m_items[iItem].Text.resize(m_columns.size());
-	}
-
 	return true;
 }
 
@@ -91,13 +86,12 @@ int CCellListCtrl::GetItemCount() const
 	return static_cast<int>(m_items.size());
 }
 
-CString CCellListCtrl::GetItemText(int iItem, int iColumn) const
+const CCellListCtrl::CItem& CCellListCtrl::Items(int index) const
 {
-	if (!IsValidItem(iItem) || !IsValidColumn(iColumn)) {
+	if (!IsValidItem(index)) {
 		AfxThrowInvalidArgException();
 	}
-	const std::vector<CString>& texts = m_items[iItem].Text;
-	return (iColumn < static_cast<int>(texts.size())) ? texts[iColumn] : CString();
+	return m_items[index];
 }
 
 bool CCellListCtrl::InsertItem(int index, LPCTSTR text)
@@ -106,10 +100,7 @@ bool CCellListCtrl::InsertItem(int index, LPCTSTR text)
 		return false;
 	}
 
-	Item item;
-	item.Text.resize((std::max)(1, GetColumnCount()));
-	item.Text[0] = text;
-	m_items.insert(m_items.begin() + index, item);
+	m_items.insert(m_items.begin() + index, CItemImpl(text));
 
 	return true;
 }
@@ -135,7 +126,7 @@ bool CCellListCtrl::SetItemText(int iItem, int iColumn, LPCTSTR text)
 		return false;
 	}
 
-	m_items[iItem].Text[iColumn] = text;
+	m_items[iItem].SetText(iColumn, text);
 	return true;
 }
 
@@ -205,7 +196,7 @@ void CCellListCtrl::OnPaint()
 		for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
 			int eachWidth = Columns(iColumn).Width();
 			CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
-			dc.DrawText(GetItemText(iItem, iColumn), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
+			dc.DrawText(Items(iItem).Text(iColumn), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
 			currentCellLeft += eachWidth;
 		}
 	}
@@ -281,4 +272,24 @@ int CCellListCtrl::CColumnImpl::Width() const
 void CCellListCtrl::CColumnImpl::SetWidth(int width)
 {
 	m_width = width;
+}
+
+CCellListCtrl::CItemImpl::CItemImpl(const CString& itemText)
+{
+	m_texts.push_back(itemText);
+}
+
+CString CCellListCtrl::CItemImpl::Text(int index) const
+{
+	return (static_cast<size_t>(index) < m_texts.size()) ? m_texts[index] : CString();
+}
+
+void CCellListCtrl::CItemImpl::SetText(int index, const CString& text)
+{
+	if (static_cast<size_t>(index) < m_texts.size()) {
+		m_texts[index] = text;
+	} else {
+		m_texts.resize(index + 1);
+		m_texts[index] = text;
+	}
 }
