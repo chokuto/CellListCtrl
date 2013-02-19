@@ -32,7 +32,7 @@ public:
 	public:
 		virtual CString Text(int index = 0) const = 0;
 	};
-	const CItem& Items(int index) const;
+	const CItem& Item(int index) const;
 	int GetItemCount() const;
 	bool InsertItem(int index, LPCTSTR text);
 	bool DeleteItem(int index);

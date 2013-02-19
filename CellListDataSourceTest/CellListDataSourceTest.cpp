@@ -129,10 +129,10 @@ TEST_F(CCellListDataSourceTest, ItemInsertion)
 
 	EXPECT_TRUE(m_pList->InsertItem(0, _T("Item 1")));
 	EXPECT_EQ(1, m_pList->GetItemCount());
-	EXPECT_STREQ(_T("Item 1"), m_pList->Items(0).Text());
-	EXPECT_STREQ(_T("Item 1"), m_pList->Items(0).Text(0));
-	EXPECT_STREQ(_T(""), m_pList->Items(0).Text(1));
-	EXPECT_STREQ(_T(""), m_pList->Items(0).Text(2));
+	EXPECT_STREQ(_T("Item 1"), m_pList->Item(0).Text());
+	EXPECT_STREQ(_T("Item 1"), m_pList->Item(0).Text(0));
+	EXPECT_STREQ(_T(""), m_pList->Item(0).Text(1));
+	EXPECT_STREQ(_T(""), m_pList->Item(0).Text(2));
 }
 
 TEST_F(CCellListDataSourceTest, ItemTextChange)
@@ -148,12 +148,12 @@ TEST_F(CCellListDataSourceTest, ItemTextChange)
 	EXPECT_TRUE(m_pList->SetItemText(0, 2, _T("Item 1-3")));
 	EXPECT_TRUE(m_pList->SetItemText(1, 2, _T("Item 2-3")));
 
-	EXPECT_STREQ(_T("Item 1-1"), m_pList->Items(0).Text(0));
-	EXPECT_STREQ(_T("Item 1-2"), m_pList->Items(0).Text(1));
-	EXPECT_STREQ(_T("Item 1-3"), m_pList->Items(0).Text(2));
+	EXPECT_STREQ(_T("Item 1-1"), m_pList->Item(0).Text(0));
+	EXPECT_STREQ(_T("Item 1-2"), m_pList->Item(0).Text(1));
+	EXPECT_STREQ(_T("Item 1-3"), m_pList->Item(0).Text(2));
 
-	EXPECT_STREQ(_T("Item 2"), m_pList->Items(1).Text(0));
-	EXPECT_STREQ(_T(""), m_pList->Items(1).Text(1));
-	EXPECT_STREQ(_T("Item 2-3"), m_pList->Items(1).Text(2));
+	EXPECT_STREQ(_T("Item 2"), m_pList->Item(1).Text(0));
+	EXPECT_STREQ(_T(""), m_pList->Item(1).Text(1));
+	EXPECT_STREQ(_T("Item 2-3"), m_pList->Item(1).Text(2));
 }
 

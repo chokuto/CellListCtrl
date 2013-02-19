@@ -86,7 +86,7 @@ int CCellListCtrl::GetItemCount() const
 	return static_cast<int>(m_items.size());
 }
 
-const CCellListCtrl::CItem& CCellListCtrl::Items(int index) const
+const CCellListCtrl::CItem& CCellListCtrl::Item(int index) const
 {
 	if (!IsValidItem(index)) {
 		AfxThrowInvalidArgException();
@@ -196,7 +196,7 @@ void CCellListCtrl::OnPaint()
 		for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
 			int eachWidth = Column(iColumn).Width();
 			CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
-			dc.DrawText(Items(iItem).Text(iColumn), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
+			dc.DrawText(Item(iItem).Text(iColumn), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
 			currentCellLeft += eachWidth;
 		}
 	}
