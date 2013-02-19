@@ -36,7 +36,7 @@ int CCellListCtrl::GetColumnCount() const
 	return static_cast<int>(m_columns.size());
 }
 
-const CCellListCtrl::CColumn& CCellListCtrl::Columns(int index) const
+const CCellListCtrl::CColumn& CCellListCtrl::Column(int index) const
 {
 	if (!IsValidColumn(index)) {
 		AfxThrowInvalidArgException();
@@ -194,7 +194,7 @@ void CCellListCtrl::OnPaint()
 		CRect rcLine(0, iItem * eachHeight, rcClient.right, (iItem + 1) * eachHeight);
 		dc.FillSolidRect(&rcLine, dc.GetBkColor());
 		for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
-			int eachWidth = Columns(iColumn).Width();
+			int eachWidth = Column(iColumn).Width();
 			CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
 			dc.DrawText(Items(iItem).Text(iColumn), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
 			currentCellLeft += eachWidth;

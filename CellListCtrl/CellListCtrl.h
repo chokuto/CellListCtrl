@@ -20,7 +20,7 @@ public:
 		virtual CString HeadingText() const = 0;
 		virtual int Width() const = 0;
 	};
-	const CColumn& Columns(int index) const;
+	const CColumn& Column(int index) const;
 
 	int GetColumnCount() const;
 	bool InsertColumn(int index, LPCTSTR headingText, int width);
