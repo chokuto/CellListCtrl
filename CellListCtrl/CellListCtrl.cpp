@@ -20,6 +20,8 @@ CCellListCtrl::CCellListCtrl()
 	: m_hFont(NULL)
 	, m_textColor(::GetSysColor(COLOR_WINDOWTEXT))
 	, m_backColor(::GetSysColor(COLOR_WINDOW))
+	, m_headingTextColor(::GetSysColor(COLOR_WINDOWTEXT))
+	, m_headingBackColor(::GetSysColor(COLOR_WINDOW))
 {
 	if (!RegisterWindowClass()) {
 		AfxThrowResourceException();
@@ -150,6 +152,26 @@ COLORREF CCellListCtrl::GetBackColor() const
 	return m_backColor;
 }
 
+void CCellListCtrl::SetHeadingTextColor(COLORREF textColor)
+{
+	m_headingTextColor = textColor;
+}
+
+COLORREF CCellListCtrl::GetHeadingTextColor() const
+{
+	return m_headingTextColor;
+}
+
+void CCellListCtrl::SetHeadingBackColor(COLORREF backColor)
+{
+	m_headingBackColor = backColor;
+}
+
+COLORREF CCellListCtrl::GetHeadingBackColor() const
+{
+	return m_headingBackColor;
+}
+
 BEGIN_MESSAGE_MAP(CCellListCtrl, CWnd)
 	ON_MESSAGE(WM_GETFONT, &CCellListCtrl::OnGetFont)
 	ON_MESSAGE(WM_SETFONT, &CCellListCtrl::OnSetFont)
@@ -170,7 +192,7 @@ LRESULT CCellListCtrl::OnSetFont(WPARAM wParam, LPARAM /*lParam*/)
 
 void CCellListCtrl::OnPaint()
 {
-	CPaintDC dc(this); // device context for painting
+	CPaintDC dc(this);
 
 	int dcStateID = dc.SaveDC();
 
@@ -183,15 +205,28 @@ void CCellListCtrl::OnPaint()
 
 	int eachHeight = GetItemHeightInPixel(&dc);
 
-	dc.SetTextColor(m_textColor);
-	dc.SetBkColor(m_backColor);
-
 	int itemCount = GetItemCount();
 	int columnCount = GetColumnCount();
 
+	dc.SetTextColor(m_headingTextColor);
+	dc.SetBkColor(m_headingBackColor);
+
+	int currentCellLeft = 0;
+	CRect rcLine(0, 0, rcClient.right, eachHeight);
+	dc.FillSolidRect(&rcLine, dc.GetBkColor());
+	for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
+		int eachWidth = Column(iColumn).Width();
+		CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
+		dc.DrawText(Column(iColumn).HeadingText(), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
+		currentCellLeft += eachWidth;
+	}
+
+	dc.SetTextColor(m_textColor);
+	dc.SetBkColor(m_backColor);
+
 	for (int iItem = 0; iItem < itemCount; ++iItem) {
 		int currentCellLeft = 0;
-		CRect rcLine(0, iItem * eachHeight, rcClient.right, (iItem + 1) * eachHeight);
+		CRect rcLine(0, (iItem + 1) * eachHeight, rcClient.right, (iItem + 2) * eachHeight);
 		dc.FillSolidRect(&rcLine, dc.GetBkColor());
 		for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
 			int eachWidth = Column(iColumn).Width();

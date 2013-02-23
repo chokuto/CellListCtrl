@@ -6,6 +6,12 @@
 // コントロールのウィンドウクラス名
 const LPCTSTR CELLLISTCTRL_CLASSNAME = _T("CellListCtrl");
 
+// データソース定義
+class CCellListDataSource {
+public:
+	virtual int GetItem() const;
+};
+
 // カスタムコントロールクラス定義
 class CCellListCtrl : public CWnd
 {
@@ -45,6 +51,12 @@ public:
 	void SetBackColor(COLORREF backColor);
 	COLORREF GetBackColor() const;
 
+	void SetHeadingTextColor(COLORREF textColor);
+	COLORREF GetHeadingTextColor() const;
+
+	void SetHeadingBackColor(COLORREF backColor);
+	COLORREF GetHeadingBackColor() const;
+
 protected:
 	DECLARE_MESSAGE_MAP()
 	afx_msg LRESULT OnGetFont(WPARAM wParam, LPARAM lParam);
@@ -83,6 +95,8 @@ private:
 	HFONT m_hFont;
 	COLORREF m_textColor;
 	COLORREF m_backColor;
+	COLORREF m_headingTextColor;
+	COLORREF m_headingBackColor;
 };
 
 
