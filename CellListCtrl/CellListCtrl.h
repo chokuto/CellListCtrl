@@ -64,6 +64,7 @@ protected:
 	afx_msg void OnPaint();
 
 private:
+	void DrawItem(CDC *pDC, int itemIndex, const CRect& itemArea) const;
 	int GetItemHeightInPixel(CDC* pDC) const;
 	bool RegisterWindowClass();
 	bool IsValidColumn(int index) const;

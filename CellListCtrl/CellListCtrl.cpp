@@ -200,43 +200,40 @@ void CCellListCtrl::OnPaint()
 		dc.SelectObject(CFont::FromHandle(m_hFont));
 	}
 
-	CRect rcClient(0,0,0,0);
-	GetClientRect(&rcClient);
-
-	int eachHeight = GetItemHeightInPixel(&dc);
-
-	int itemCount = GetItemCount();
-	int columnCount = GetColumnCount();
-
 	dc.SetTextColor(m_headingTextColor);
 	dc.SetBkColor(m_headingBackColor);
 
-	int currentCellLeft = 0;
-	CRect rcLine(0, 0, rcClient.right, eachHeight);
-	dc.FillSolidRect(&rcLine, dc.GetBkColor());
-	for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
-		int eachWidth = Column(iColumn).Width();
-		CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
-		dc.DrawText(Column(iColumn).HeadingText(), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
-		currentCellLeft += eachWidth;
-	}
+	CRect rcClient(0,0,0,0);
+	GetClientRect(&rcClient);
+
+	CRect rcLine(0, 0, rcClient.right, GetItemHeightInPixel(&dc));
+	DrawItem(&dc, -1, &rcLine);
 
 	dc.SetTextColor(m_textColor);
 	dc.SetBkColor(m_backColor);
 
+	int itemCount = GetItemCount();
 	for (int iItem = 0; iItem < itemCount; ++iItem) {
-		int currentCellLeft = 0;
-		CRect rcLine(0, (iItem + 1) * eachHeight, rcClient.right, (iItem + 2) * eachHeight);
-		dc.FillSolidRect(&rcLine, dc.GetBkColor());
-		for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
-			int eachWidth = Column(iColumn).Width();
-			CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
-			dc.DrawText(Item(iItem).Text(iColumn), -1, &rcCell, DT_LEFT | DT_NOPREFIX);
-			currentCellLeft += eachWidth;
-		}
+		rcLine.OffsetRect(0, rcLine.Height());
+		DrawItem(&dc, iItem, rcLine);
 	}
 
 	dc.RestoreDC(dcStateID);
+}
+
+void CCellListCtrl::DrawItem(CDC *pDC, int iItem, const CRect& rcLine) const
+{
+	pDC->FillSolidRect(&rcLine, pDC->GetBkColor());
+
+	int currentCellLeft = 0;
+	int columnCount = GetColumnCount();
+	for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
+		int eachWidth = Column(iColumn).Width();
+		CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
+		CString strText = (iItem < 0) ? Column(iColumn).HeadingText() : Item(iItem).Text(iColumn);
+		pDC->DrawText(strText, -1, &rcCell, DT_LEFT | DT_NOPREFIX);
+		currentCellLeft += eachWidth;
+	}
 }
 
 int CCellListCtrl::GetItemHeightInPixel(CDC* pDC) const

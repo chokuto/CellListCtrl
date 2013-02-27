@@ -112,4 +112,10 @@ void CCellListTestDlg::InitializeListCtrl()
 
 	m_List.InsertItem(0, _T("Item 1-1"));
 	m_List.SetItemText(0, 1, _T("Item 1-2"));
+
+	for (int i = 1; i < 12; ++i) {
+		CString str;
+		str.Format(_T("Item %d-1"), i + 1);
+		m_List.InsertItem(i, str);
+	}
 }
