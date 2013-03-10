@@ -26,14 +26,9 @@ public:
 	CCellListCtrl();
 	virtual ~CCellListCtrl();
 
-	class CColumn {
-	public:
-		virtual CString HeadingText() const = 0;
-		virtual int Width() const = 0;
-	};
-	const CColumn& Column(int index) const;
-
 	int GetColumnCount() const;
+	CString GetColumnHeadingText(int index) const;
+	int GetColumnWidth(int index) const;
 	bool InsertColumn(int index, LPCTSTR headingText, int width);
 	bool DeleteColumn(int index);
 	void DeleteAllColumns();
@@ -74,12 +69,12 @@ private:
 	bool IsValidColumn(int index) const;
 	bool IsValidItem(int index) const;
 
-	class CColumnImpl : public CColumn {
+	class CColumnImpl {
 	public:
 		CColumnImpl(const CString& text, int width);
-		virtual CString HeadingText() const;
+		CString HeadingText() const;
 		void SetHeadingText(const CString& text);
-		virtual int Width() const;
+		int Width() const;
 		void SetWidth(int width);
 	private:
 		CString m_headingText;

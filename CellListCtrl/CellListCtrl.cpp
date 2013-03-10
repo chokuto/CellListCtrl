@@ -39,12 +39,20 @@ int CCellListCtrl::GetColumnCount() const
 	return static_cast<int>(m_columns.size());
 }
 
-const CCellListCtrl::CColumn& CCellListCtrl::Column(int index) const
+CString CCellListCtrl::GetColumnHeadingText(int index) const
 {
 	if (!IsValidColumn(index)) {
 		AfxThrowInvalidArgException();
 	}
-	return m_columns[index];
+	return m_columns[index].HeadingText();
+}
+
+int CCellListCtrl::GetColumnWidth(int index) const
+{
+	if (!IsValidColumn(index)) {
+		AfxThrowInvalidArgException();
+	}
+	return m_columns[index].Width();
 }
 
 bool CCellListCtrl::InsertColumn(int index, LPCTSTR headingText, int width)
@@ -239,7 +247,7 @@ void CCellListCtrl::OnPaint()
 		int columnCount = GetColumnCount();
 		int columnLeft = 0;
 		for (int iColumn = 0; iColumn < columnCount - 1; ++iColumn) {
-			columnLeft += Column(iColumn).Width();
+			columnLeft += GetColumnWidth(iColumn);
 			dc.MoveTo(columnLeft - 1, rcClient.top);
 			dc.LineTo(columnLeft - 1, rcClient.bottom);
 		}
@@ -255,9 +263,9 @@ void CCellListCtrl::DrawItem(CDC *pDC, int iItem, const CRect& rcLine) const
 	int currentCellLeft = 0;
 	int columnCount = GetColumnCount();
 	for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
-		int eachWidth = Column(iColumn).Width();
+		int eachWidth = GetColumnWidth(iColumn);
 		CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
-		CString strText = (iItem < 0) ? Column(iColumn).HeadingText() : GetItemText(iItem, iColumn);
+		CString strText = (iItem < 0) ? GetColumnHeadingText(iColumn) : GetItemText(iItem, iColumn);
 		pDC->DrawText(strText, -1, &rcCell, DT_LEFT | DT_NOPREFIX);
 		currentCellLeft += eachWidth;
 	}

@@ -92,9 +92,9 @@ TEST_F(CCellListDataSourceTest, ColumnTexts)
 	m_pList->InsertColumn(1, _T("Column 2"), 80);
 	m_pList->InsertColumn(2, _T("Column 3"), 100);
 
-	EXPECT_STREQ(_T("Column 1"), m_pList->Column(0).HeadingText());
-	EXPECT_STREQ(_T("Column 2"), m_pList->Column(1).HeadingText());
-	EXPECT_STREQ(_T("Column 3"), m_pList->Column(2).HeadingText());
+	EXPECT_STREQ(_T("Column 1"), m_pList->GetColumnHeadingText(0));
+	EXPECT_STREQ(_T("Column 2"), m_pList->GetColumnHeadingText(1));
+	EXPECT_STREQ(_T("Column 3"), m_pList->GetColumnHeadingText(2));
 }
 
 TEST_F(CCellListDataSourceTest, ColumnWidths)
@@ -103,9 +103,9 @@ TEST_F(CCellListDataSourceTest, ColumnWidths)
 	m_pList->InsertColumn(1, _T("Column 2"), 80);
 	m_pList->InsertColumn(2, _T("Column 3"), 100);
 
-	EXPECT_EQ(60, m_pList->Column(0).Width());
-	EXPECT_EQ(80, m_pList->Column(1).Width());
-	EXPECT_EQ(100, m_pList->Column(2).Width());
+	EXPECT_EQ(60, m_pList->GetColumnWidth(0));
+	EXPECT_EQ(80, m_pList->GetColumnWidth(1));
+	EXPECT_EQ(100, m_pList->GetColumnWidth(2));
 }
 
 TEST_F(CCellListDataSourceTest, ColumnInsertionIndexOutOfRange)
