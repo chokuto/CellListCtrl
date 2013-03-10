@@ -89,12 +89,12 @@ int CCellListCtrl::GetItemCount() const
 	return static_cast<int>(m_items.size());
 }
 
-const CCellListCtrl::CItem& CCellListCtrl::Item(int index) const
+CString CCellListCtrl::GetItemText(int iItem, int iColumn) const
 {
-	if (!IsValidItem(index)) {
+	if (!IsValidItem(iItem) || !IsValidColumn(iColumn)) {
 		AfxThrowInvalidArgException();
 	}
-	return m_items[index];
+	return m_items[iItem].Text(iColumn);
 }
 
 bool CCellListCtrl::InsertItem(int index, LPCTSTR text)
@@ -257,7 +257,7 @@ void CCellListCtrl::DrawItem(CDC *pDC, int iItem, const CRect& rcLine) const
 	for (int iColumn = 0; iColumn < columnCount; ++iColumn) {
 		int eachWidth = Column(iColumn).Width();
 		CRect rcCell(currentCellLeft, rcLine.top, currentCellLeft + eachWidth, rcLine.bottom);
-		CString strText = (iItem < 0) ? Column(iColumn).HeadingText() : Item(iItem).Text(iColumn);
+		CString strText = (iItem < 0) ? Column(iColumn).HeadingText() : GetItemText(iItem, iColumn);
 		pDC->DrawText(strText, -1, &rcCell, DT_LEFT | DT_NOPREFIX);
 		currentCellLeft += eachWidth;
 	}

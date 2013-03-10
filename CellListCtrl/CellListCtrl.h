@@ -39,12 +39,8 @@ public:
 	void DeleteAllColumns();
 	bool SetColumnHeadingText(int index, LPCTSTR headingText);
 
-	class CItem {
-	public:
-		virtual CString Text(int index = 0) const = 0;
-	};
-	const CItem& Item(int index) const;
 	int GetItemCount() const;
+	CString GetItemText(int iItem, int iColumn = 0) const;
 	bool InsertItem(int index, LPCTSTR text);
 	bool DeleteItem(int index);
 	void DeleteAllItems();
@@ -91,10 +87,10 @@ private:
 	};
 	std::vector<CColumnImpl> m_columns;
 
-	class CItemImpl : public CItem {
+	class CItemImpl {
 	public:
 		explicit CItemImpl(const CString& itemText);
-		virtual CString Text(int index) const;
+		CString Text(int index) const;
 		void SetText(int index, const CString& itemText);
 	private:
 		std::vector<CString> m_texts;
