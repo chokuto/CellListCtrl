@@ -235,6 +235,16 @@ void CCellListCtrl::OnPaint()
 		}
 	}
 
+	if (m_gridlineStyle & CELLLIST_GRIDLINE_SOLID_VERT) {
+		int columnCount = GetColumnCount();
+		int columnLeft = 0;
+		for (int iColumn = 0; iColumn < columnCount - 1; ++iColumn) {
+			columnLeft += Column(iColumn).Width();
+			dc.MoveTo(columnLeft - 1, rcClient.top);
+			dc.LineTo(columnLeft - 1, rcClient.bottom);
+		}
+	}
+
 	dc.RestoreDC(dcStateID);
 }
 

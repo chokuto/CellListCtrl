@@ -119,6 +119,6 @@ void CCellListTestDlg::InitializeListCtrl()
 		m_List.InsertItem(i, str);
 	}
 
-	m_List.SetGridlineStyle(CELLLIST_GRIDLINE_SOLID_HORZ);
-	ASSERT(m_List.GetGridlineStyle() == CELLLIST_GRIDLINE_SOLID_HORZ);
+	m_List.SetGridlineStyle(CELLLIST_GRIDLINE_SOLID_HORZ | CELLLIST_GRIDLINE_SOLID_VERT);
+	ASSERT(m_List.GetGridlineStyle() == CELLLIST_GRIDLINE_SOLID_HORZ | CELLLIST_GRIDLINE_SOLID_VERT);
 }
