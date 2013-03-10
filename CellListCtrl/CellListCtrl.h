@@ -12,6 +12,11 @@ public:
 	virtual int GetItem() const;
 };
 
+const DWORD CELLLIST_GRIDLINE_NONE = 0;
+const DWORD CELLLIST_GRIDLINE_SOLID_HORZ = 1;
+const DWORD CELLLIST_GRIDLINE_SOLID_VERT = 2;
+const DWORD CELLLIST_GRIDLINE_SOLID = CELLLIST_GRIDLINE_SOLID_HORZ | CELLLIST_GRIDLINE_SOLID_VERT;
+
 // カスタムコントロールクラス定義
 class CCellListCtrl : public CWnd
 {
@@ -57,6 +62,9 @@ public:
 	void SetHeadingBackColor(COLORREF backColor);
 	COLORREF GetHeadingBackColor() const;
 
+	void SetGridlineStyle(DWORD style);
+	DWORD GetGridlineStyle() const;
+
 protected:
 	DECLARE_MESSAGE_MAP()
 	afx_msg LRESULT OnGetFont(WPARAM wParam, LPARAM lParam);
@@ -98,6 +106,7 @@ private:
 	COLORREF m_backColor;
 	COLORREF m_headingTextColor;
 	COLORREF m_headingBackColor;
+	DWORD m_gridlineStyle;
 };
 
 

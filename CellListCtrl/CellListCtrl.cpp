@@ -22,6 +22,7 @@ CCellListCtrl::CCellListCtrl()
 	, m_backColor(::GetSysColor(COLOR_WINDOW))
 	, m_headingTextColor(::GetSysColor(COLOR_WINDOWTEXT))
 	, m_headingBackColor(::GetSysColor(COLOR_WINDOW))
+	, m_gridlineStyle(CELLLIST_GRIDLINE_NONE)
 {
 	if (!RegisterWindowClass()) {
 		AfxThrowResourceException();
@@ -172,6 +173,16 @@ COLORREF CCellListCtrl::GetHeadingBackColor() const
 	return m_headingBackColor;
 }
 
+void CCellListCtrl::SetGridlineStyle(DWORD style)
+{
+	m_gridlineStyle = style;
+}
+
+DWORD CCellListCtrl::GetGridlineStyle() const
+{
+	return m_gridlineStyle;
+}
+
 BEGIN_MESSAGE_MAP(CCellListCtrl, CWnd)
 	ON_MESSAGE(WM_GETFONT, &CCellListCtrl::OnGetFont)
 	ON_MESSAGE(WM_SETFONT, &CCellListCtrl::OnSetFont)
@@ -210,12 +221,18 @@ void CCellListCtrl::OnPaint()
 	DrawItem(&dc, -1, &rcLine);
 
 	dc.SetTextColor(m_textColor);
+	dc.SetDCPenColor(m_textColor);
 	dc.SetBkColor(m_backColor);
 
 	int itemCount = GetItemCount();
 	for (int iItem = 0; iItem < itemCount; ++iItem) {
 		rcLine.OffsetRect(0, rcLine.Height());
 		DrawItem(&dc, iItem, rcLine);
+
+		if (m_gridlineStyle & CELLLIST_GRIDLINE_SOLID_HORZ) {
+			dc.MoveTo(0, rcLine.bottom - 1);
+			dc.LineTo(rcLine.right, rcLine.bottom - 1);
+		}
 	}
 
 	dc.RestoreDC(dcStateID);

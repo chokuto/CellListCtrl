@@ -118,4 +118,7 @@ void CCellListTestDlg::InitializeListCtrl()
 		str.Format(_T("Item %d-1"), i + 1);
 		m_List.InsertItem(i, str);
 	}
+
+	m_List.SetGridlineStyle(CELLLIST_GRIDLINE_SOLID_HORZ);
+	ASSERT(m_List.GetGridlineStyle() == CELLLIST_GRIDLINE_SOLID_HORZ);
 }
